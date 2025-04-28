@@ -1,0 +1,4 @@
+# .gitignore for the NeoTime plugin created by DBTow
+
+# General
+.DS_Store
