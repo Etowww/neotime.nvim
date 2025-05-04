@@ -4,3 +4,7 @@ print("neotime.nvim loaded")
 
 require("neotime").setup()
 
+require("neotime").start()
+require("neotime").stop()
+require("neotime").reset()
+
