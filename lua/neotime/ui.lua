@@ -3,7 +3,7 @@
 local M = {}
 
 
-function M.test_window()
+function M.open_window()
 	local buf = vim.api.nvim_create_buf(false, true)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, true, {"00:00:00"})
 	local opts = {

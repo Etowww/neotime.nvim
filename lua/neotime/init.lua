@@ -6,7 +6,7 @@ local M = {}
 
 function M.setup()
 	vim.api.nvim_create_user_command("NeotimeTest", function()
-		ui.test_window()
+		ui.open_window()
 	end, {})
 end
 
