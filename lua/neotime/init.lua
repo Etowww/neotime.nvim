@@ -7,8 +7,8 @@ local timer = require("neotime.timer")
 local M = {}
 
 function M.setup()
-	vim.api.nvim_create_user_command("NeotimeTest", function()
-		ui.open_window()
+	vim.api.nvim_create_user_command("NeotimeToggle", function()
+		ui.toggle_window()
 	end, {})
 end
 

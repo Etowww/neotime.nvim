@@ -1,9 +1,9 @@
 -- ./lua/neotime/timer.lua created by DBTow
-local Timer = {}
-local stopwatch_timer = nil
-local start_time = 0
-local elapsed_time = 0
-local stopwatch_running = false
+local Timer = {
+	start_time = 0,
+	elapsed_time = 0,
+	stopwatch_running = false
+}
 
 function Timer.format_time(milliseconds)
 	local total_seconds = milliseconds / 1000
@@ -16,22 +16,34 @@ function Timer.format_time(milliseconds)
 end
 
 function Timer.start()
-	start_time = vim.uv.now()
-	print("Stopwatch Started")
+	if Timer.stopwatch_running then
+		print("The stopwatch is already running")
+		return end
+	Timer.start_time = vim.uv.now() - Timer.elapsed_time
+	Timer.stopwatch_running = true
 end
 
 function Timer.stop()
-	current_time = vim.uv.now()
-	elapsed_time = current_time - start_time
-	print(Timer.format_time(elapsed_time))
+	if not Timer.stopwatch_running then
+		print("No active stopwatch")
+		return end
+	Timer.elapsed_time = vim.uv.now() - Timer.start_time
+	Timer.stopwatch_running = false
 end
 
 function Timer.reset()
-	current_time = 0
-	start_time = 0
-	elapsed_time = 0
-	print("Time reset to: 00:00:00")
+	if Timer.stopwatch_running then
+		Timer.stop()
+	end
+	Timer.elapsed_time = 0
+	print("Time reset to 00:00:00")
 end
 
+function Timer.get_time()
+	if Timer.stopwatch_running then
+		return Timer.format_time(vim.uv.now() - Timer.start_time)
+	end
+	return Timer.format_time(Timer.elapsed_time)
+end
 
 return Timer 
