@@ -17,15 +17,20 @@ function M.show_window()
 
 	-- Only create a window if not already visible
 	if not (M.win and vim.api.nvim_win_is_valid(M.win)) then
+
+		-- Window configuration options
 		local opts = {
 			relative = "editor",
-			width = 10,
+			width = 20,
 			height = 2,
-			col = 0,
-			row = 1,
+			col = vim.o.columns,
+			row = 0,
 			anchor = "NE",
 			style = "minimal",
-			focusable = false
+			focusable = false,
+			border = "rounded",
+			title = "Neotime",
+			title_pos = "center",
 		}
 		M.win = vim.api.nvim_open_win(M.buf, false, opts)
 		M.ui_visible = true
