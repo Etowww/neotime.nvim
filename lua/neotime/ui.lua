@@ -1,5 +1,8 @@
 -- /lua/neotime/ui.lua created by DBTow
 
+local styles = require("neotime.styles")
+local timer = require("neotime.timer")
+
 local M = {
 	buf = nil,
 	win = nil,
@@ -9,29 +12,28 @@ local M = {
 
 
 function M.show_window()
+	-- Grab the styles config option
+	local style_config = styles.get_styles_config()
+
 	-- Create buffer if it does not exist
 	M.buf = M.buf or vim.api.nvim_create_buf(false, true)
 
 	-- Set initial text content
-	vim.api.nvim_buf_set_lines(M.buf, 0, -1, true, {require('neotime.timer').get_time()})
+	vim.api.nvim_buf_set_lines(M.buf, 0, -1, true, {timer.get_time()})
 
 	-- Only create a window if not already visible
 	if not (M.win and vim.api.nvim_win_is_valid(M.win)) then
 
 		-- Window configuration options
-		local opts = {
+		local opts = vim.tbl_extend("force", {
 			relative = "editor",
-			width = 20,
-			height = 2,
 			col = vim.o.columns,
 			row = 0,
 			anchor = "NE",
 			style = "minimal",
 			focusable = false,
 			border = "rounded",
-			title = "Neotime",
-			title_pos = "center",
-		}
+		}, style_config.win_opts or {})
 		M.win = vim.api.nvim_open_win(M.buf, false, opts)
 		M.ui_visible = true
 	end
